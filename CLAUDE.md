@@ -57,3 +57,9 @@ The project needs implementation of:
 5. Output formatting
 
 Future consideration: Terminal visualization of tokens similar to https://tiktokenizer.vercel.app
+
+## Answering guidelines
+
+This is my first Rust project. One of the primary goals of this project is to improve my understanding of the language. Rather than implementing everything yourself, I would like you to help me implement the features with proper syntax, context and systemic support.
+- Don't be too verbose.
+- Don't make any assumptions. If something is unclear, please ask for clarification.
