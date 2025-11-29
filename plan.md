@@ -9,31 +9,57 @@ Build a CLI tool (`rst`) that calculates token counts for files using various mo
 1. **CLI Argument Parsing (Basic)**
    - Added `clap` dependency with derive features
    - Created `Args` struct with:
-     - `files: Vec<String>` - accepts multiple file paths
+     - `files: Vec<String>` - accepts multiple file paths (default: ".")
      - `tokenizer: String` - flag `-t/--tokenizer` with default "cl100k_base"
    - Implemented basic parsing in `main()`
    - Tested compilation and basic arg parsing
 
+2. **Basic File Reading (Phase 1 - Partial)**
+   - Implemented single file reading with `std::fs::read_to_string()`
+   - Added error handling with `match` on `Result`
+   - Implemented multiple file processing with `for` loop
+   - Prints character count for each file
+   - Error messages printed to stderr with `eprintln!`
+
+**Rust Concepts Learned:**
+- `if let` pattern matching and shadowing
+- `Option` and `Result` types
+- `match` expressions
+- Ownership and moving (String doesn't implement Copy)
+- `for` loops with references (`&files`)
+- `eprintln!` for stderr output
+
 ## Implementation Roadmap
 
-### Phase 1: File Processing ⏳ Next
+### Phase 1: File Processing ⏳ In Progress
 **Goal:** Read and validate file inputs
 
-**Tasks:**
-1. Handle single file input
-2. Handle multiple files
-3. Handle directory input (recursively read files)
-4. Error handling:
-   - Non-existent files (skip with error message)
-   - Binary files (skip with warning)
-   - Empty files (report 0 tokens)
-5. Filter for text files only
+**Completed:**
+- ✅ Handle single file input
+- ✅ Handle multiple files
+- ✅ Basic error handling (non-existent files)
 
-**Key Rust Concepts:**
-- `std::fs` for file operations
-- `std::path::Path` and `PathBuf` for path handling
-- `Result<T, E>` for error handling
-- Pattern matching with `match` or `if let`
+**Next Tasks:**
+1. **Directory handling (non-recursive)** ⏳ NEXT
+   - Detect if path is directory vs file using `Path::is_dir()`
+   - Read directory entries with `std::fs::read_dir()`
+   - Filter out subdirectories (skip for now)
+   - Filter out hidden files (files starting with `.`)
+   - Read all text files in directory
+
+2. Error handling improvements:
+   - Binary files (skip with warning) - future
+   - Empty files (currently works, reports 0 characters)
+
+**Design Decisions:**
+- Skip subdirectories for now (add `--depth` flag later)
+- Ignore hidden files (add `--all` flag later to include them)
+- Read all files as text (binary detection later)
+
+**Key Rust Concepts Still to Learn:**
+- `std::path::Path` API
+- `std::fs::read_dir()` and `DirEntry`
+- Iterator filtering and chaining
 
 ### Phase 2: Tokenizer Integration
 **Goal:** Integrate a tokenizer library
