@@ -1,17 +1,30 @@
 use clap::Parser;
+use std::fs::read_to_string;
 
 #[derive(Parser)]
 struct Args {
-    files: Vec<String>, // Positional - no flag
+    #[arg(default_value = ".")]
+    files: Vec<String>,
     #[arg(short, long, default_value = "cl100k_base")]
-    tokenizer: String, // to pass after the -t or --tokenizer flag
+    tokenizer: String,
 }
 
 fn main() {
     let args = Args::parse();
     let files = args.files;
-    let tokenizer = args.tokenizer;
+    // let tokenizer = args.tokenizer;
 
-    println!("Files: {files:#?}");
-    println!("Tokenizer: {tokenizer}")
+    for file in &files {
+        let content = read_to_string(file);
+
+        match content {
+            Ok(content) => {
+                let length = content.len();
+                println!("Length of file {file} : {length} characters.");
+            }
+            Err(err) => {
+                eprintln!("Error when trying to read the file {file} : {err}")
+            }
+        }
+    }
 }
